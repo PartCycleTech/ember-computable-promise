@@ -1,27 +1,18 @@
 # ember-computable-promise
 
-This README outlines the details of collaborating on this Ember addon.
+## Usage
+In your `component.js`:
+```js
+import {computablePromise, computablePromiseValue} from 'ember-computable-promise';
 
-## Installation
+myProp: computablePromise('dep1', 'dep2', function() {
+  // your code
+  return new Ember.RSVP.Promise( resolve => {
+    resolve();
+  })
+}),
 
-* `git clone <repository-url>` this repository
-* `cd ember-computable-promise`
-* `npm install`
-* `bower install`
+myValue: computablePromiseValue('myProp');
+```
 
-## Running
-
-* `ember serve`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
-
-## Running Tests
-
-* `npm test` (Runs `ember try:each` to test your addon against multiple Ember versions)
-* `ember test`
-* `ember test --server`
-
-## Building
-
-* `ember build`
-
-For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
+Now your templates will automatically be compatible with `{{myValue}}`
