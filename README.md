@@ -3,16 +3,24 @@
 ## Usage
 In your `component.js`:
 ```js
+import Ember from 'ember';
 import {computablePromise, computablePromiseValue} from 'ember-computable-promise';
 
-myProp: computablePromise('dep1', 'dep2', function() {
-  // your code
-  return new Ember.RSVP.Promise( resolve => {
-    resolve();
-  })
-}),
+export default Ember.Component.extend({
+  someValue: 'foo',
 
-myValue: computablePromiseValue('myProp');
+  myPromise: computablePromise('someValue', function() {
+    let result = this.get('someValue');
+    return new Ember.RSVP.Promise( resolve => {
+      resolve(result);
+    });
+  }),
+
+  myResolvedValue: computablePromiseValue('myPromise') // will be 'foo' after myPromise resolves
+});
+
 ```
 
-Now your templates will automatically be compatible with `{{myValue}}`
+`myResolvedValue` will be undefined before the promise has fulfilled, and will contain the resolved value after fulfillment.
+
+Now your templates will automatically be compatible with `{{myResolvedValue}}`
