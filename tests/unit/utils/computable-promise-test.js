@@ -4,7 +4,7 @@ import { module, test } from 'qunit';
 
 module('Unit | Utility | computable promise');
 
-test('computablePromise works with computablePromiseVal', function(assert) {
+test('computablePromise works with computablePromiseValue', function(assert) {
   let expectedValue = 'foo';
   let Obj = Ember.Object.extend({
     someVal: false,
@@ -20,9 +20,9 @@ test('computablePromise works with computablePromiseVal', function(assert) {
 
   Ember.run(function() {
     obj.set('someVal', true);
-    assert.strictEqual(obj.get('myComputablePromiseValue'), undefined, 'computedPromiseVal is undefined before promise resolution');
+    assert.strictEqual(obj.get('myComputablePromiseValue'), undefined, 'computedPromiseValue is undefined before promise resolution');
     obj.get('myComputablePromise').then(() => {
-      assert.strictEqual(obj.get('myComputablePromiseValue'), expectedValue, 'computedPromiseVal has the resolved value of computedPromise after resolution');
+      assert.strictEqual(obj.get('myComputablePromiseValue'), expectedValue, 'computedPromiseValue has the resolved value of computedPromise after resolution');
     });
   });
 });
