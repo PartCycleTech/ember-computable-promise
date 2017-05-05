@@ -25,4 +25,8 @@ function computablePromiseValue(promiseProp) {
   });
 }
 
-export {computablePromise, computablePromiseValue};
+function isLoadingComputablePromise(promiseProp) {
+  return Ember.computed.alias(`${promiseProp}.isPending`);
+}
+
+export {computablePromise, computablePromiseValue, isLoadingComputablePromise};
