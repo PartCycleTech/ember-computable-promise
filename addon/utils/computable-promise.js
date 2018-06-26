@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import { alias } from '@ember/object/computed';
+import { computed } from '@ember/object';
 import DS from 'ember-data';
 
 function computablePromise() {
@@ -13,11 +14,11 @@ function computablePromise() {
     }
   };
   args.push(fnAsPromiseObject);
-  return Ember.computed.apply(this, args);
+  return computed.apply(this, args);
 }
 
 function computablePromiseValue(promiseProp) {
-  return Ember.computed(`${promiseProp}.isFulfilled`, function() {
+  return computed(`${promiseProp}.isFulfilled`, function() {
     let promise = this.get(promiseProp);
     if(promise && promise.isFulfilled) {
       return promise.content;
@@ -26,7 +27,7 @@ function computablePromiseValue(promiseProp) {
 }
 
 function isLoadingComputablePromise(promiseProp) {
-  return Ember.computed.alias(`${promiseProp}.isPending`);
+  return alias(`${promiseProp}.isPending`);
 }
 
 export {computablePromise, computablePromiseValue, isLoadingComputablePromise};

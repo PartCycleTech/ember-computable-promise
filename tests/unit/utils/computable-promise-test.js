@@ -1,16 +1,22 @@
-import Ember from 'ember';
-import { computablePromise, computablePromiseValue, isLoadingComputablePromise } from 'ember-computable-promise/utils/computable-promise';
+import { run } from '@ember/runloop';
+import { Promise } from 'rsvp';
+import EmberObject from '@ember/object';
+import {
+  computablePromise,
+  computablePromiseValue,
+  isLoadingComputablePromise
+} from 'ember-computable-promise/utils/computable-promise';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | computable promise');
 
 test('computablePromise works with computablePromiseValue', function(assert) {
   let expectedValue = 'foo';
-  let Obj = Ember.Object.extend({
+  let Obj = EmberObject.extend({
     someVal: false,
     myComputablePromise: computablePromise('someVal', function() {
       let resolvedVal = expectedValue;
-      return new Ember.RSVP.Promise(resolve => {
+      return new Promise(resolve => {
         resolve(resolvedVal);
       });
     }),
@@ -18,7 +24,7 @@ test('computablePromise works with computablePromiseValue', function(assert) {
   });
   let obj = Obj.create();
 
-  Ember.run(function() {
+  run(function() {
     obj.set('someVal', true);
     assert.strictEqual(obj.get('myComputablePromiseValue'), undefined, 'computedPromiseValue is undefined before promise resolution');
     obj.get('myComputablePromise').then(() => {
@@ -28,11 +34,11 @@ test('computablePromise works with computablePromiseValue', function(assert) {
 });
 
 test('computablePromise works with isLoadingComputablePromise', function(assert) {
-  let Obj = Ember.Object.extend({
+  let Obj = EmberObject.extend({
     someVal: 'foo',
     myComputablePromise: computablePromise('someVal', function() {
       let resolvedVal = this.get('someVal');
-      return new Ember.RSVP.Promise(resolve => {
+      return new Promise(resolve => {
         resolve(resolvedVal);
       });
     }),
@@ -40,7 +46,7 @@ test('computablePromise works with isLoadingComputablePromise', function(assert)
   });
   let obj = Obj.create();
 
-  Ember.run(function() {
+  run(function() {
     obj.get('myComputablePromise').then(() => {
       assert.strictEqual(obj.get('isLoading'), false, 'isLoadingComputablePromise is false once promise has resolved');
       obj.set('someVal', 'bar');
