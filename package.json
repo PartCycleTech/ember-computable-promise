@@ -1,6 +1,6 @@
 {
   "name": "ember-computable-promise",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "Provides a mechanism to create Ember computed properties which watch Promise values",
   "keywords": [
     "ember-addon"
